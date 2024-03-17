@@ -5,15 +5,16 @@ import 'package:app_tareas/views/widgets/TaskTitle.dart';
 import 'package:flutter/material.dart';
 
 class TaskPage extends StatelessWidget {
-  List<Task> tasks = [];
+  // List<Task> tasks = [];
+  Task task;
 
-  TaskPage({super.key}) {
-    tasks = getTasks();
+  TaskPage({super.key, required this.task}) {
+    // tasks = getTasks();
   }
 
   @override
   Widget build(BuildContext context) {
-    Task task = tasks[0];
+    // Task task = tasks[0];
     return Scaffold(appBar: getAppBar(), body: getBody(task));
   }
 }

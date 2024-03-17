@@ -1,4 +1,4 @@
-import 'package:app_tareas/views/pages/TaskPage.dart';
+import 'package:app_tareas/views/pages/TaskList.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +12,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: TaskPage()),
+      home: Scaffold(body: TaskList()),
     );
   }
 }

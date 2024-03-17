@@ -21,3 +21,11 @@ Widget format(Task task) {
     )
   ]);
 }
+
+// Widget taskTitle(Task task) {
+//   return Padding(
+//       padding: const EdgeInsets.all(2.0),
+//       child: Row(
+//         children: [Text(task.name)],
+//       ));
+// }

@@ -6,6 +6,7 @@ List<Task> getTasks() {
     Task(
         name: "Prueba 1",
         description: "Primera Nota de prueba",
-        color: Colors.blue)
+        color: Colors.blue),
+    Task(name: "Nota 2", description: "Segunda nota", color: Colors.deepPurple)
   ];
 }
