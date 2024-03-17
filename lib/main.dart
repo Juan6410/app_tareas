@@ -18,8 +18,24 @@ class MainApp extends StatelessWidget {
   Scaffold getScaffold() {
     return Scaffold(
       appBar: getAppBar(),
-      body: const Center(
-        child: Text("a"),
+      body: getBody("Hola"),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            print("click");
+          },
+          backgroundColor: Colors.indigo.shade400,
+          shape: CircleBorder(),
+          child: const Icon(Icons.note_add_rounded)),
+    );
+  }
+
+  Center getBody(String title) {
+    return Center(
+      child: Column(
+        children: [
+          TextButton(
+              onPressed: () => print("Text Button"), child: Text("click"))
+        ],
       ),
     );
   }
@@ -32,7 +48,6 @@ class MainApp extends StatelessWidget {
       ),
       backgroundColor: Colors.indigo.shade400,
       elevation: 5,
-      actions: [],
     );
   }
 }
