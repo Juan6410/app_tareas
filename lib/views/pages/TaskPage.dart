@@ -34,11 +34,30 @@ Center getBody(Task task) {
   return Center(
     child: Card(
       margin: const EdgeInsets.all(4.0),
-      color: Colors.grey.shade400,
-      surfaceTintColor: task.color,
+      color: getColor(task.color),
       child: Column(
         children: [getTaskTitle(task), getTaskDescription(task)],
       ),
     ),
   );
+}
+
+//metodo para convertir un color a formato type Colorc con un shade ingresado en parametos
+Color getColor(String color) {
+  switch (color) {
+    case "red":
+      return Colors.red.shade400;
+    case "blue":
+      return Colors.blue.shade400;
+    case "green":
+      return Colors.green.shade400;
+    case "yellow":
+      return Colors.yellow.shade400;
+    case "orange":
+      return Colors.orange.shade400;
+    case "purple":
+      return Colors.purple.shade400;
+    default:
+      return Colors.white30;
+  }
 }
