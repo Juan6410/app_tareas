@@ -9,15 +9,21 @@ class TaskProvider extends ChangeNotifier {
   List<Task> get tasks => _tasks;
 
   addTask(Task task) {
-    print(task.color);
     _tasks.add(task);
-    // Notificar a los suscriptores de que hay un cambio
     notifyListeners();
   }
 
   void deleteTask(Task task) {
     _tasks.remove(task);
-    // Notificar a los suscriptores de que hay un cambio
+    notifyListeners();
+  }
+
+  void updateTask(Task task) {
+    if (task.done == true) {
+      task.done = false;
+    } else {
+      task.done = true;
+    }
     notifyListeners();
   }
 }
