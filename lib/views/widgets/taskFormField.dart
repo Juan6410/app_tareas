@@ -1,5 +1,6 @@
 import 'package:app_tareas/controller/taskController.dart';
 import 'package:app_tareas/models/tasks.dart';
+import 'package:app_tareas/views/pages/TaskList.dart';
 import 'package:app_tareas/views/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:app_tareas/controller/taskProvider.dart';
@@ -12,70 +13,96 @@ class CreateTaskPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Nueva Tarea"),
-      ),
-      body: Consumer<TaskProvider>(
-        builder: (_, contactProvider, child) {
-          return formTask(contactProvider, context);
-        },
-      ),
-    );
+        appBar: mainAppBar(),
+        body: Consumer<TaskProvider>(
+          builder: (_, contactProvider, child) {
+            return formTask(contactProvider, context);
+          },
+        ));
   }
 
-  Widget formTask(TaskProvider provider, BuildContext context) {
+  Form formTask(TaskProvider provider, BuildContext context) {
     return Form(
       key: _key,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextFormField(
-              onChanged: (value) => task.name = value,
-              decoration: const InputDecoration(labelText: "Titulo"),
-              maxLines: 1, // Permitir múltiples líneas de texto
-            ),
-            TextFormField(
-              onChanged: (value) => task.description = value,
-              decoration: const InputDecoration(labelText: "Descripcion"),
-              maxLines: 1, // Permitir múltiples líneas de texto
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: TaskButtons(),
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: ElevatedButton(
-                    style: buttonStyle(),
-                    onPressed: () {
-                      task.color = TaskButtons().getEngColor() ?? '';
-                      (saveTask(_key, task, provider));
-                      if (_key.currentState!.validate()) {
-                        Navigator.of(context).pop();
-                      }
-                    },
-                    child: const Text("Guardar",
-                        style: TextStyle(color: Colors.white)),
-                  ),
+      child: Card(
+        margin: EdgeInsetsGeometry.lerp(
+            const EdgeInsets.all(6.0), EdgeInsets.zero, 0.0),
+        color: Colors.white54,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextFormField(
+                      onChanged: (value) => task.name = value,
+                      decoration: const InputDecoration(labelText: "Titulo"),
+                      validator: _nameValidator,
+                    ),
+                    TextFormField(
+                      onChanged: (value) => task.description = value,
+                      decoration:
+                          const InputDecoration(labelText: "Descripcion"),
+                      validator: _descriptionValidator,
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: ElevatedButton(
-                    style: buttonStyle(),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("Cancelar",
-                        style: TextStyle(color: Colors.white)),
-                  ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.black54,
+                    border: Border.all(color: Colors.black, width: 3.0),
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text("Selecciona un color para la tarea",
+                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                    ),
+                    TaskButtons(),
+                  ],
                 ),
-              ],
-            ),
-          ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: buttonStyle(),
+                          onPressed: () {
+                            task.color = TaskButtons().getEngColor() ?? '';
+                            (saveTask(_key, task, provider));
+                            if (_key.currentState!.validate()) {
+                              Navigator.of(context).pop();
+                            }
+                          },
+                          child: const Text("Guardar",
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                      const Row(
+                          children: [Padding(padding: EdgeInsets.all(8.0))]),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: buttonStyle(),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text("Cancelar",
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -83,11 +110,20 @@ class CreateTaskPage extends StatelessWidget {
 
   ButtonStyle buttonStyle() {
     return ButtonStyle(
-      shape: MaterialStateProperty.all(
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      ),
-      backgroundColor: MaterialStateProperty.all(Colors.black54),
-      textStyle: MaterialStateProperty.all(TextStyle(color: Colors.white)),
-    );
+        backgroundColor: MaterialStateProperty.all(Colors.black54),
+        shape: MaterialStateProperty.all(ContinuousRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0))));
+  }
+
+  String? _nameValidator(value) {
+    return value == null || value.isEmpty
+        ? 'Ingrese el nombre de la tarea'
+        : null;
+  }
+
+  String? _descriptionValidator(value) {
+    return value == null || value.isEmpty
+        ? 'Ingrese la descripcion de la tarea'
+        : null;
   }
 }

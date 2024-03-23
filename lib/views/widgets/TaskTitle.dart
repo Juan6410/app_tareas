@@ -14,8 +14,10 @@ Widget format(Task task) {
       margin: const EdgeInsets.all(7.5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(7.0),
+        border: BoxBorder.lerp(Border.all(color: Colors.black, width: 1.0),
+            Border.all(color: Colors.white, width: 1.0), 7.5),
         color: getColor(task.color),
-        backgroundBlendMode: BlendMode.darken,
+        backgroundBlendMode: BlendMode.softLight,
       ),
       padding: const EdgeInsets.all(6.0),
       child: Text(task.name,

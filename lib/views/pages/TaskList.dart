@@ -1,7 +1,5 @@
-import 'package:app_tareas/controller/taskController.dart';
 import 'package:app_tareas/models/tasks.dart';
 import 'package:app_tareas/views/pages/TaskPage.dart';
-import 'package:app_tareas/views/widgets/TaskTitle.dart';
 import 'package:flutter/material.dart';
 import 'package:app_tareas/controller/taskProvider.dart';
 import 'package:app_tareas/views/widgets/taskFormField.dart';
@@ -16,14 +14,7 @@ class TaskList extends StatelessWidget {
     provider = Provider.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Tareas",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
-        ),
-        backgroundColor: Colors.black87,
-        elevation: 5,
-      ),
+      appBar: mainAppBar(),
       body: Consumer<TaskProvider>(
         builder: (_, TaskProvider, child) {
           provider = TaskProvider;
@@ -31,6 +22,7 @@ class TaskList extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black87,
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -38,7 +30,7 @@ class TaskList extends StatelessWidget {
             ),
           );
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.note_add_outlined, color: Colors.white),
       ),
     );
   }
@@ -71,26 +63,30 @@ class TaskList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: Container(
-        color: getColor(task.color),
+        decoration: BoxDecoration(
+          color: getColor(task.color),
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    task.name.length > 20
-                        ? "${task.name.substring(0, 20)}..."
-                        : task.name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      task.name.length > 20
+                          ? "${task.name.substring(0, 20)}..."
+                          : task.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             IconButton(
               onPressed: () {
@@ -111,4 +107,15 @@ class TaskList extends StatelessWidget {
       ),
     );
   }
+}
+
+AppBar mainAppBar() {
+  return AppBar(
+    title: const Text(
+      "Tareas",
+      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+    ),
+    backgroundColor: Colors.black87,
+    elevation: 5,
+  );
 }
